@@ -55,30 +55,61 @@ class Parse {
     return false
   }
 
-  validateString() {
+  validString() {
     if (typeof this.string !== 'string' || this.string.length === 0) {
       this.errors.push('Invalid string provided.');
+      return false;
     }
+
+    return true;
   }
 
   handleFreq(arg) {
     let value = this.frequencies[arg];
     if (!value) {
-      this.errors.push(`Invalid value ${arg} given for FREQ.`);
-      return null;
+      this.errors.push(`Invalid value "${arg}" given for FREQ.`);
+      return { frequency: null };
     }
 
     return { frequency: value };
   }
 
+  validateInterval(arg) {
+    let valid = true;
+    if (this.checkNaN(arg, 'INTERVAL')) {
+      valid = false;
+    }
+
+    if (+arg < 1) {
+      this.errors.push(`Out of range value "${arg}" given for INTERVAL.`);
+      valid = false;
+    }
+
+    return valid;
+  }
+
   handleInterval(arg) {
     const value = +arg;
-    return { interval: !this.checkNaN(arg, 'INTERVAL') ? value : null };
+    return { interval: this.validateInterval(arg) ? value : null };
+  }
+
+  validateCount(arg) {
+    let valid = true;
+    if (this.checkNaN(arg, 'COUNT')) {
+      valid = false;
+    }
+
+    if (+arg < 1) {
+      this.errors.push(`Out of range value "${arg}" given for COUNT.`);
+      valid = false;
+    }
+
+    return valid;
   }
 
   handleCount(arg) {
     const value = +arg;
-    return { count: !this.checkNaN(arg, 'COUNT') ? value : null };
+    return { count: this.validateCount(arg) ? value : null };
   }
 
   validateEaster(arg) {
@@ -103,7 +134,7 @@ class Parse {
       valid = false;
     } else if (+arg < 0 || +arg > 364) {
       valid = false;
-      this.errors.push(`Out of range value ${arg} given for BYYEARDAY.`);
+      this.errors.push(`Out of range value "${arg}" given for BYYEARDAY.`);
     }
 
     return valid;
@@ -122,7 +153,7 @@ class Parse {
       valid = false;
     } else if (+arg < -1 || +arg > 28 || +arg === 0) {
       valid = false;
-      this.errors.push(`Out of range value ${arg} given for BYMONTHDAY.`);
+      this.errors.push(`Out of range value "${arg}" given for BYMONTHDAY.`);
     }
 
     return valid;
@@ -141,7 +172,7 @@ class Parse {
       valid = false;
     } else if (+arg < 0 || +arg > 51) {
       valid = false;
-      this.errors.push(`Out of range value ${arg} given for BYWEEKNO.`);
+      this.errors.push(`Out of range value "${arg}" given for BYWEEKNO.`);
     }
 
     return valid;
@@ -160,7 +191,7 @@ class Parse {
       valid = false;
     } else if (+arg < 0 || +arg > 11) {
       valid = false;
-      this.errors.push(`Out of range value ${arg} given for BYMONTH.`);
+      this.errors.push(`Out of range value "${arg}" given for BYMONTH.`);
     }
 
     return valid;
@@ -175,9 +206,9 @@ class Parse {
 
   validateDay(day) {
     let valid = true;
-    if (this.checkNaN(this.weekDays[day])) {
+    if (this.weekDays[day] === undefined) {
       valid = false;
-      this.errors.push(`Invalid value ${day} given for BYDAY.`);
+      this.errors.push(`Invalid value "${day}" given for BYDAY.`);
     };
 
     return valid;
@@ -196,7 +227,7 @@ class Parse {
       valid = false;
     } else if (+arg < 0 || +arg > 23) {
       valid = false;
-      this.errors.push('Out of range value ${arg} given for BYHOUR.');
+      this.errors.push(`Out of range value "${arg}" given for BYHOUR.`);
     }
 
     return valid;
@@ -215,7 +246,7 @@ class Parse {
       valid = false;
     }
     if (+arg < 0 || +arg > 59) {
-      this.errors.push('Out of range value ${arg} given for BYMINUTE.');
+      this.errors.push(`Out of range value "${arg}" given for BYMINUTE.`);
       valid = false;
     }
 
@@ -236,7 +267,7 @@ class Parse {
     };
     if (+arg < 0 || +arg > 59) {
       valid = false;
-      this.errors.push('Out of range value ${arg} given for BYSECOND.');
+      this.errors.push(`Out of range value "${arg}" given for BYSECOND.`);
     }
 
     return valid;
@@ -273,6 +304,10 @@ class Parse {
     return { dtStart: arg };
   }
 
+  handleTzId(arg) {
+    return { tzId: arg };
+  }
+
   get pairs() {
     return {
       FREQ: this.handleFreq.bind(this),
@@ -289,11 +324,12 @@ class Parse {
       BYSECOND: this.handleBySecond.bind(this),
       BYSETPOS: this.handleBySetPos.bind(this),
       DTSTART: this.handleDtStart.bind(this),
+      TZID: this.handleTzId.bind(this),
     }
   }
 
   handleSplit() {
-    return Object.assign(...this.split.map(s => {
+    const pairs = this.split.map(s => {
       const pair = s.split('=');
 
       if (!pair[1]) {
@@ -305,21 +341,31 @@ class Parse {
         :
           this.handleInvalid(pair[0]);
       }
-    }));
+    });
+
+    return (pairs && pairs.length > 0) ? Object.assign(...pairs) : {};
   }
 
   parse() {
-    this.validateString();
+    if (!this.validString()) {
+      return {
+        result: {},
+        errors: this.errors,
+      }
+    };
 
     this.split = this.string.split(';');
     const result = this.handleSplit();
 
-    if (this.errors.length > 0) {
-      console.log('Errors found:');
-      this.errors.forEach(e => console.log(`- ${e}`));
-    }
+    // if (this.errors.length > 0) {
+    //   console.log('Errors found:');
+    //   this.errors.forEach(e => console.log(`- ${e}`));
+    // }
 
-    return result;
+    return {
+      result,
+      errors: this.errors,
+    }
   }
 }
 

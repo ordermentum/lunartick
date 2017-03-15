@@ -11,10 +11,10 @@ const parsed = new Parse(rruleString).parse();
 console.log(parsed);
 
 /*{
-  "frequency": 2,
-  "interval": 1,
-  "byHour": [14],
-  "byMinute": [3],
-  "bySecond": [0]
+  frequency: 2,
+  interval: 1,
+  byHour: [14],
+  byMinute: [3],
+  bySecond: [0]
 }*/
 ```
