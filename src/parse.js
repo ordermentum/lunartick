@@ -20,7 +20,6 @@
 class Parse {
   constructor(string) {
     this.string = string;
-    this.errors = [];
   }
 
   get weekDays() {
@@ -49,7 +48,7 @@ class Parse {
 
   checkNaN(value, field) {
     if (isNaN(+value)) {
-      this.errors.push(`Invalid value "${value}" given for ${field}.`);
+      throw new Error(`Invalid value "${value}" given for ${field}.`);
       return true;
     }
 
@@ -58,7 +57,7 @@ class Parse {
 
   validString() {
     if (typeof this.string !== 'string' || this.string.length === 0) {
-      this.errors.push('Invalid string provided.');
+      throw new Error('Invalid string provided.');
       return false;
     }
 
@@ -68,7 +67,7 @@ class Parse {
   handleFreq(arg) {
     let value = this.frequencies[arg];
     if (!value) {
-      this.errors.push(`Invalid value "${arg}" given for FREQ.`);
+      throw new Error(`Invalid value "${arg}" given for FREQ.`);
       return { frequency: null };
     }
 
@@ -82,7 +81,7 @@ class Parse {
     }
 
     if (+arg < 1) {
-      this.errors.push(`Out of range value "${arg}" given for INTERVAL.`);
+      throw new Error(`Out of range value "${arg}" given for INTERVAL.`);
       valid = false;
     }
 
@@ -101,7 +100,7 @@ class Parse {
     }
 
     if (+arg < 1) {
-      this.errors.push(`Out of range value "${arg}" given for COUNT.`);
+      throw new Error(`Out of range value "${arg}" given for COUNT.`);
       valid = false;
     }
 
@@ -135,7 +134,7 @@ class Parse {
       valid = false;
     } else if (+arg < 0 || +arg > 364) {
       valid = false;
-      this.errors.push(`Out of range value "${arg}" given for BYYEARDAY.`);
+      throw new Error(`Out of range value "${arg}" given for BYYEARDAY.`);
     }
 
     return valid;
@@ -154,7 +153,7 @@ class Parse {
       valid = false;
     } else if (+arg < -1 || +arg > 28 || +arg === 0) {
       valid = false;
-      this.errors.push(`Out of range value "${arg}" given for BYMONTHDAY.`);
+      throw new Error(`Out of range value "${arg}" given for BYMONTHDAY.`);
     }
 
     return valid;
@@ -173,7 +172,7 @@ class Parse {
       valid = false;
     } else if (+arg < 0 || +arg > 51) {
       valid = false;
-      this.errors.push(`Out of range value "${arg}" given for BYWEEKNO.`);
+      throw new Error(`Out of range value "${arg}" given for BYWEEKNO.`);
     }
 
     return valid;
@@ -192,7 +191,7 @@ class Parse {
       valid = false;
     } else if (+arg < 0 || +arg > 11) {
       valid = false;
-      this.errors.push(`Out of range value "${arg}" given for BYMONTH.`);
+      throw new Error(`Out of range value "${arg}" given for BYMONTH.`);
     }
 
     return valid;
@@ -209,7 +208,7 @@ class Parse {
     let valid = true;
     if (this.weekDays[day] === undefined) {
       valid = false;
-      this.errors.push(`Invalid value "${day}" given for BYDAY.`);
+      throw new Error(`Invalid value "${day}" given for BYDAY.`);
     };
 
     return valid;
@@ -228,7 +227,7 @@ class Parse {
       valid = false;
     } else if (+arg < 0 || +arg > 23) {
       valid = false;
-      this.errors.push(`Out of range value "${arg}" given for BYHOUR.`);
+      throw new Error(`Out of range value "${arg}" given for BYHOUR.`);
     }
 
     return valid;
@@ -247,7 +246,7 @@ class Parse {
       valid = false;
     }
     if (+arg < 0 || +arg > 59) {
-      this.errors.push(`Out of range value "${arg}" given for BYMINUTE.`);
+      throw new Error(`Out of range value "${arg}" given for BYMINUTE.`);
       valid = false;
     }
 
@@ -268,7 +267,7 @@ class Parse {
     };
     if (+arg < 0 || +arg > 59) {
       valid = false;
-      this.errors.push(`Out of range value "${arg}" given for BYSECOND.`);
+      throw new Error(`Out of range value "${arg}" given for BYSECOND.`);
     }
 
     return valid;
@@ -282,7 +281,7 @@ class Parse {
   }
 
   handleInvalid(key) {
-    this.errors.push(`Invalid key ${key} provided in RRULE string.`);
+    throw new Error(`Invalid key ${key} provided in RRULE string.`);
   }
 
   validateSetPos(arg) {
@@ -334,7 +333,7 @@ class Parse {
       const pair = s.split('=');
 
       if (!pair[1]) {
-        this.errors.push(`No value given for ${pair[0]} parameter.`);
+        throw new Error(`No value given for ${pair[0]} parameter.`);
         return { [pair[0]]: null };
       } else {
         return this.pairs[pair[0]] ?
@@ -356,18 +355,7 @@ class Parse {
     };
 
     this.split = this.string.split(';');
-    const result = this.handleSplit();
-
-    // TODO: Throw exception and change return to result only.
-    // if (this.errors.length > 0) {
-    //   console.log('Errors found:');
-    //   this.errors.forEach(e => console.log(`- ${e}`));
-    // }
-
-    return {
-      result,
-      errors: this.errors,
-    }
+    return this.handleSplit();
   }
 }
 
