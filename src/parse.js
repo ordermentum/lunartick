@@ -39,10 +39,11 @@ class Parse {
     return {
       SECONDLY: 0,
       MINUTELY: 1,
-      DAILY: 2,
-      WEEKLY: 3,
-      MONTHLY: 4,
-      YEARLY: 5,
+      HOURLY: 2,
+      DAILY: 3,
+      WEEKLY: 4,
+      MONTHLY: 5,
+      YEARLY: 6,
     };
   }
 
@@ -357,6 +358,7 @@ class Parse {
     this.split = this.string.split(';');
     const result = this.handleSplit();
 
+    // TODO: Throw exception and change return to result only.
     // if (this.errors.length > 0) {
     //   console.log('Errors found:');
     //   this.errors.forEach(e => console.log(`- ${e}`));
