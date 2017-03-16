@@ -26,35 +26,58 @@ class Iterator {
     }
   }
 
-  // [Symbol.iterator]() {
-  //   let limit = this.rule.count || 20;
-  //   while (limit > 1) {
-  //     // need to advance to the next instance of this
-  //     // get next instance as TimezoneDate.date()
-  //     // yield the new date.
-  //     yield new TimezoneDate(this.start + this.rule.interval);
-      
-  //     limit = limit - 1;
-  //   }
-  // }
+  *[Symbol.iterator]() {
+    let limit = this.rule.count || 100;
+    let startFrom = this.start;
+    while (limit > 1) {
+      // need to advance to the next instance of this
+      // get next instance as TimezoneDate.date()
+      // yield the new date.
+      const value = this.getNext(this.start);
+      yield value;
+      this.start = value;
+      limit = limit - 1;
+    }
+  }
 
   getLowerIntervals(fromDate) {
     const intervalTime = new TimezoneDate(fromDate);
 
     if (this.rule.frequency > 0) {
-      const seconds = (this.rule.bySecond && this.rule.bySecond[0]) || this.start.getSeconds();
+      const seconds = this.rule.bySecond ? this.rule.bySecond[0] : this.start.getSeconds();
       intervalTime.setSeconds(seconds);
     }
     if (this.rule.frequency > 1) {
-      const minutes = (this.rule.byMinute && this.rule.byMinute[0]) || this.start.getMinutes();
+      const minutes = this.rule.byMinute ? this.rule.byMinute[0] : this.start.getMinutes();
       intervalTime.setMinutes(minutes);
     }
     if (this.rule.frequency > 2) {
-      const hours = (this.rule.byHour && this.rule.byHour[0]) || this.start.getHours();
+      const hours = this.rule.byHour ? this.rule.byHour[0] : this.start.getHours();
       intervalTime.setHours(hours);
     }
     if (this.rule.frequency > 3) {
-      const day = (this.rule.byDay && this.rule.byDay[0]) || this.start.getDay();
+      const day = this.rule.byDay ? this.rule.byDay[0] : this.start.getDay();
+      intervalTime.setDay(day);
+    }
+
+    return intervalTime;
+  }
+
+  setLowerIntervals(intervalTime) {
+    if (this.rule.frequency > 0) {
+      const seconds = this.rule.bySecond ? this.rule.bySecond[0] : this.start.getSeconds();
+      intervalTime.setSeconds(seconds);
+    }
+    if (this.rule.frequency > 1) {
+      const minutes = this.rule.byMinute ? this.rule.byMinute[0] : this.start.getMinutes();
+      intervalTime.setMinutes(minutes);
+    }
+    if (this.rule.frequency > 2) {
+      const hours = this.rule.byHour ? this.rule.byHour[0] : this.start.getHours();
+      intervalTime.setHours(hours);
+    }
+    if (this.rule.frequency > 3) {
+      const day = this.rule.byDay ? this.rule.byDay[0] : this.start.getDay();
       intervalTime.setDay(day);
     }
 
@@ -64,17 +87,17 @@ class Iterator {
   getNext(fromDate) {
     let nextRun = new TimezoneDate(fromDate);
 
-    const currentTime = new TimezoneDate();
     const intervalTime = this.getLowerIntervals(fromDate);
 
-    if (currentTime.date < intervalTime.date) {
-      return intervalTime.date;
+    if (this.start.date < intervalTime.date) {
+      return intervalTime;
     } else {
       for (let i = 0; i < this.rule.interval; i++) {
         intervalTime[this.addFrequency[this.rule.frequency]]();
       }
 
-      return intervalTime.date;
+      this.setLowerIntervals(intervalTime);
+      return intervalTime;
     }
 
     // Check the interval type directly below to see if the

@@ -1,7 +1,7 @@
 const moment = require('moment-timezone');
 
 class TimezoneDate {
-  constructor(timestamp, timezone) {
+  constructor(timestamp = new Date(), timezone = 'Australia/Sydney') {
     if (timestamp instanceof TimezoneDate) {
       timestamp = timestamp.date;
     }
