@@ -1,12 +1,12 @@
 const WEEK_DAYS = {
-  'MO': 0,
-  'TU': 1,
-  'WE': 2,
-  'TH': 3,
-  'FR': 4,
-  'SA': 5,
-  'SU': 6,
-}
+  MO: 0,
+  TU: 1,
+  WE: 2,
+  TH: 3,
+  FR: 4,
+  SA: 5,
+  SU: 6,
+};
 
 const FREQUENCIES = {
   SECONDLY: 0,
@@ -16,7 +16,17 @@ const FREQUENCIES = {
   WEEKLY: 4,
   MONTHLY: 5,
   YEARLY: 6,
-}
+};
+
+const ADD_FREQUENCY = {
+  0: 'addSecond',
+  1: 'addMinute',
+  2: 'addHour',
+  3: 'addDay',
+  4: 'addWeek',
+  5: 'addMonth',
+  6: 'addYear',
+};
 
 const LEGACY = {
   dayOfWeek: 'byDay',
@@ -24,10 +34,11 @@ const LEGACY = {
   byhour: 'byHour',
   byminute: 'byMinute',
   bysecond: 'bySecond',
-}
+};
 
 module.exports = {
   FREQUENCIES,
   WEEK_DAYS,
   LEGACY,
-}
+  ADD_FREQUENCY,
+};
