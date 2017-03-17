@@ -27,6 +27,10 @@ class Rule {
     return new Rule(result);
   }
 
+  getRule() {
+    return this.rule;
+  }
+
   iterator(start = null) {
     return new Iterator(this.rule, start);
   }
