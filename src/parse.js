@@ -1,4 +1,5 @@
 const constants = require('./constants');
+const TimezoneDate = require('./timezone_date');
 
 /*
   Results are given as:
@@ -16,6 +17,7 @@ const constants = require('./constants');
     byHour = array of integer [0..23]
     byMinute = array of integer [0..59]
     bySecond = array of integer [0..59]
+    tzId = shortened stringified TZ.
   }
 */
 
@@ -222,11 +224,23 @@ class Parse {
   }
 
   handleDtStart(arg) {
-    return { dtStart: arg };
+    let dtStart;
+    try {
+      dtStart = new TimezoneDate(arg);
+    } catch (ex) {
+      throw new Error('Invalid DTSTART provided.');
+    }
+    return { dtStart };
   }
 
   handleTzId(arg) {
-    return { tzId: arg };
+    let tz = arg;
+    const match = arg.match(/.+?(?=:)/);
+    if (match) {
+      tz = match[0];
+    }
+
+    return { tzId: tz };
   }
 
   get pairs() {

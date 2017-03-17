@@ -1,9 +1,17 @@
 const moment = require('moment-timezone');
 
+/*
+  moment's days range from:
+  Sunday(0) -> Saturday(6)
+  rrule's days range from:
+  Monday(0) -> Sunday(6)
+  const day = this.date.day();
+*/
+
 class TimezoneDate {
   constructor(timestamp = new Date(), timezone = 'Australia/Sydney') {
     if (timestamp instanceof TimezoneDate) {
-      timestamp = timestamp.date;
+      timestamp = timestamp.date; // eslint-disable-line
     }
 
     if (!timezone) {
@@ -65,16 +73,13 @@ class TimezoneDate {
   }
 
   getDay() {
-    // moment's days range from:
-    // Sunday(0) -> Saturday(6)
-    // rrule's days range from:
-    // Monday(0) -> Sunday(6)
     const day = this.date.day();
+    let result = day - 1;
     if (day === 0) {
-      return 6;
-    } else {
-      return (day - 1);
+      result = 6;
     }
+
+    return result;
   }
 
   getMonth() {
@@ -142,16 +147,12 @@ class TimezoneDate {
   }
 
   setDay(d) {
-    // moment's days range from:
-    // Sunday(0) -> Saturday(6)
-    // rrule's days range from:
-    // Monday(0) -> Sunday(6)
-    // const day = this.date.day();
+    let result = this.date.day(d + 1);
     if (d === 6) {
-      return this.date.day(0);
-    } else {
-      return this.date.day(d + 1);
+      result = this.date.day(0);
     }
+
+    return result;
   }
 
   setMonth(m) {

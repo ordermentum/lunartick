@@ -3,7 +3,7 @@ const Iterator = require('./iterator');
 const constants = require('./constants');
 
 class Rule {
-  constuctor(rule = {}) {
+  constructor(rule = {}) {
     this.rule = rule;
   }
 
@@ -27,8 +27,8 @@ class Rule {
     return new Rule(result);
   }
 
-  iterator() {
-    return new Iterator(this.rule);
+  iterator(start = null) {
+    return new Iterator(this.rule, start);
   }
 }
 
