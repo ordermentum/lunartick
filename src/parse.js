@@ -1,3 +1,5 @@
+const constants = require('./constants');
+
 /*
   Results are given as:
   {
@@ -22,30 +24,6 @@ class Parse {
     this.string = string;
   }
 
-  get weekDays() {
-    return {
-      'MO': 0,
-      'TU': 1,
-      'WE': 2,
-      'TH': 3,
-      'FR': 4,
-      'SA': 5,
-      'SU': 6,
-    };
-  }
-
-  get frequencies() {
-    return {
-      SECONDLY: 0,
-      MINUTELY: 1,
-      HOURLY: 2,
-      DAILY: 3,
-      WEEKLY: 4,
-      MONTHLY: 5,
-      YEARLY: 6,
-    };
-  }
-
   checkNaN(value, field) {
     if (isNaN(+value)) {
       throw new Error(`Invalid value "${value}" given for ${field}.`);
@@ -65,7 +43,7 @@ class Parse {
   }
 
   handleFreq(arg) {
-    let value = this.frequencies[arg];
+    let value = constants.FREQUENCIES[arg];
     if (!value) {
       throw new Error(`Invalid value "${arg}" given for FREQ.`);
       return { frequency: null };
@@ -206,7 +184,7 @@ class Parse {
 
   validateDay(day) {
     let valid = true;
-    if (this.weekDays[day] === undefined) {
+    if (constants.WEEK_DAYS[day] === undefined) {
       valid = false;
       throw new Error(`Invalid value "${day}" given for BYDAY.`);
     };
@@ -217,7 +195,7 @@ class Parse {
   handleByDay(arg) {
     const split = arg.split(',');
     return { byDay: split.map(s => {
-              return this.validateDay(s) ? this.weekDays[s] : null;
+              return this.validateDay(s) ? constants.WEEK_DAYS[s] : null;
             }) };
   }
 
