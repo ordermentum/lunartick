@@ -10,7 +10,7 @@ const constants = require('./constants');
     byMonth = array of integer [1..12]
     byMonthDay = array of integer [1..28] & [-1]
     byYearDay = array of integer [0..364]
-    byEaster = array of integer 
+    byEaster = array of integer
     byWeekNo = array of integer [0..51]
     byDay = array of integer [0..6]
     byHour = array of integer [0..23]
@@ -27,235 +27,182 @@ class Parse {
   checkNaN(value, field) {
     if (isNaN(+value)) {
       throw new Error(`Invalid value "${value}" given for ${field}.`);
-      return true;
     }
-
-    return false
   }
 
   validString() {
     if (typeof this.string !== 'string' || this.string.length === 0) {
       throw new Error('Invalid string provided.');
-      return false;
     }
-
-    return true;
   }
 
   handleFreq(arg) {
-    let value = constants.FREQUENCIES[arg];
+    const value = constants.FREQUENCIES[arg];
     if (!value) {
       throw new Error(`Invalid value "${arg}" given for FREQ.`);
-      return { frequency: null };
     }
 
     return { frequency: value };
   }
 
   validateInterval(arg) {
-    let valid = true;
-    if (this.checkNaN(arg, 'INTERVAL')) {
-      valid = false;
-    }
+    this.checkNaN(arg, 'INTERVAL');
 
     if (+arg < 1) {
       throw new Error(`Out of range value "${arg}" given for INTERVAL.`);
-      valid = false;
     }
-
-    return valid;
   }
 
   handleInterval(arg) {
+    this.validateInterval(arg);
     const value = +arg;
-    return { interval: this.validateInterval(arg) ? value : null };
+    return { interval: value };
   }
 
   validateCount(arg) {
-    let valid = true;
-    if (this.checkNaN(arg, 'COUNT')) {
-      valid = false;
-    }
+    this.checkNaN(arg, 'COUNT');
 
     if (+arg < 1) {
       throw new Error(`Out of range value "${arg}" given for COUNT.`);
-      valid = false;
     }
-
-    return valid;
   }
 
   handleCount(arg) {
+    this.validateCount(arg);
     const value = +arg;
-    return { count: this.validateCount(arg) ? value : null };
+    return { count: value };
   }
 
   validateEaster(arg) {
-    let valid = true;
-    if (this.checkNaN(arg, 'BYEASTER')) {
-      valid = false;
-    }
-
-    return valid;
+    this.checkNaN(arg, 'BYEASTER');
   }
 
   handleByEaster(arg) {
     const split = arg.split(',');
     return { byEaster: split.map(s => {
-              return this.validateEaster(s) ? +s : null;
-            }) };
+      this.validateEaster(s);
+      return +s;
+    }) };
   }
 
   validateYearDay(arg) {
-    let valid = true;
-    if (this.checkNaN(arg, 'BYYEARDAY')) {
-      valid = false;
-    } else if (+arg < 0 || +arg > 364) {
-      valid = false;
+    this.checkNaN(arg, 'BYYEARDAY');
+
+    if (+arg < 0 || +arg > 364) {
       throw new Error(`Out of range value "${arg}" given for BYYEARDAY.`);
     }
-
-    return valid;
   }
 
   handleByYearDay(arg) {
     const split = arg.split(',');
     return { byYearDay: split.map(s => {
-              return this.validateYearDay(s) ? +s : null;
-            }) };
+      this.validateYearDay(s);
+      return +s;
+    }) };
   }
 
   validateMonthDay(arg) {
-    let valid = true;
-    if (this.checkNaN(arg, 'BYMONTHDAY')) {
-      valid = false;
-    } else if (+arg < -1 || +arg > 28 || +arg === 0) {
-      valid = false;
+    this.checkNaN(arg, 'BYMONTHDAY');
+    if (+arg < -1 || +arg > 28 || +arg === 0) {
       throw new Error(`Out of range value "${arg}" given for BYMONTHDAY.`);
     }
-
-    return valid;
   }
 
   handleByMonthDay(arg) {
     const split = arg.split(',');
     return { byMonthDay: split.map(s => {
-              return this.validateMonthDay(s) ? +s : null;
-            }) };
+      this.validateMonthDay(s);
+      return +s;
+    }) };
   }
 
   validateWeekNo(arg) {
-    let valid = true;
-    if (this.checkNaN(arg, 'BYWEEKNO')) {
-      valid = false;
-    } else if (+arg < 0 || +arg > 51) {
-      valid = false;
+    this.checkNaN(arg, 'BYWEEKNO');
+    if (+arg < 0 || +arg > 51) {
       throw new Error(`Out of range value "${arg}" given for BYWEEKNO.`);
     }
-
-    return valid;
   }
 
   handleByWeekNo(arg) {
     const split = arg.split(',');
     return { byWeekNo: split.map(s => {
-              return this.validateWeekNo(s) ? +s : null;
-            }) };
+      this.validateWeekNo(s);
+      return +s;
+    }) };
   }
 
   validateMonth(arg) {
-    let valid = true;
-    if (this.checkNaN(arg, 'BYMONTH')) {
-      valid = false;
-    } else if (+arg < 0 || +arg > 11) {
-      valid = false;
+    this.checkNaN(arg, 'BYMONTH');
+    if (+arg < 0 || +arg > 11) {
       throw new Error(`Out of range value "${arg}" given for BYMONTH.`);
     }
-
-    return valid;
   }
 
   handleByMonth(arg) {
     const split = arg.split(',');
     return { byMonth: split.map(s => {
-              return this.validateMonth(s) ? +s : null;
-            }) };
+      this.validateMonth(s);
+      return +s;
+    }) };
   }
 
   validateDay(day) {
-    let valid = true;
     if (constants.WEEK_DAYS[day] === undefined) {
-      valid = false;
       throw new Error(`Invalid value "${day}" given for BYDAY.`);
-    };
-
-    return valid;
+    }
   }
 
   handleByDay(arg) {
     const split = arg.split(',');
     return { byDay: split.map(s => {
-              return this.validateDay(s) ? constants.WEEK_DAYS[s] : null;
-            }) };
+      this.validateDay(s);
+      return constants.WEEK_DAYS[s];
+    }) };
   }
 
   validateHour(arg) {
-    let valid = true;
-    if (this.checkNaN(arg, 'BYHOUR')) {
-      valid = false;
-    } else if (+arg < 0 || +arg > 23) {
-      valid = false;
+    this.checkNaN(arg, 'BYHOUR')
+    if (+arg < 0 || +arg > 23) {
       throw new Error(`Out of range value "${arg}" given for BYHOUR.`);
     }
-
-    return valid;
   }
 
   handleByHour(arg) {
     const split = arg.split(',');
     return { byHour: split.map(s => {
-              return this.validateHour(s) ? +s : null;
-            }) };
+      this.validateHour(s);
+      return +s;
+    }) };
   }
 
   validateMinute(arg) {
-    let valid = true;
-    if (this.checkNaN(arg, 'BYMINUTE')) {
-      valid = false;
-    }
+    this.checkNaN(arg, 'BYMINUTE');
     if (+arg < 0 || +arg > 59) {
       throw new Error(`Out of range value "${arg}" given for BYMINUTE.`);
-      valid = false;
     }
-
-    return valid;
   }
 
   handleByMinute(arg) {
     const split = arg.split(',');
     return { byMinute: split.map(s => {
-              return this.validateMinute(s) ? +s : null;
-            }) };
+      this.validateMinute(s);
+      return +s;
+    }) };
   }
 
   validateSecond(arg) {
-    let valid = true;
-    if (this.checkNaN(arg, 'BYSECOND')) {
-      valid = false;
-    };
+    this.checkNaN(arg, 'BYSECOND');
     if (+arg < 0 || +arg > 59) {
-      valid = false;
       throw new Error(`Out of range value "${arg}" given for BYSECOND.`);
     }
-
-    return valid;
   }
 
   handleBySecond(arg) {
     const split = arg.split(',');
     return { bySecond: split.map(s => {
-              return this.validateSecond(s) ? +s : null;
-            }) };
+      this.validateSecond(s);
+      return +s;
+    }) };
   }
 
   handleInvalid(key) {
@@ -263,19 +210,15 @@ class Parse {
   }
 
   validateSetPos(arg) {
-    let valid = true;
-    if (this.checkNaN(arg, 'BYSETPOS')) {
-      valid = false;
-    }
-
-    return valid;
+    this.checkNaN(arg, 'BYSETPOS');
   }
 
   handleBySetPos(arg) {
     const split = arg.split(',');
     return { bySetPos: split.map(s => {
-              return this.validateSetPos(s) ? +s : null;
-            }) };
+      this.validateSetPos(s);
+      return +s;
+    }) };
   }
 
   handleDtStart(arg) {
@@ -303,7 +246,7 @@ class Parse {
       BYSETPOS: this.handleBySetPos.bind(this),
       DTSTART: this.handleDtStart.bind(this),
       TZID: this.handleTzId.bind(this),
-    }
+    };
   }
 
   handleSplit() {
@@ -312,7 +255,6 @@ class Parse {
 
       if (!pair[1]) {
         throw new Error(`No value given for ${pair[0]} parameter.`);
-        return { [pair[0]]: null };
       } else {
         return this.pairs[pair[0]] ?
           this.pairs[pair[0]](pair[1])
@@ -325,12 +267,7 @@ class Parse {
   }
 
   parse() {
-    if (!this.validString()) {
-      return {
-        result: {},
-        errors: this.errors,
-      }
-    };
+    this.validString();
 
     this.split = this.string.split(';');
     return this.handleSplit();
