@@ -1,42 +1,35 @@
+const Parse = require('./parse');
+const Iterator = require('./iterator');
+const constants = require('./constants');
+
 class Rule {
-  constuctor(args) {
-    this._args = args;
-    this._errors = [];
-
-    return this._parse();
-  }
-
-  get frequencies() {
-    return ['DAILY', 'WEEKLY', 'FORTNIGHTLY', 'MONTHLY'];
+  constuctor(rule = {}) {
+    this.rule = rule;
   }
 
   static parse(string) {
-    return new Rule(Parser.parse(string));
+    return new Rule(new Parse(string).parse());
   }
 
-  _validateFreq() {
-    if (!this._args.freq) {
-      this.errors.push('No { freq } argument provided.');
-    }
+  static legacyParse(recurrence) {
+    const result = {};
 
-    if (this._frequencies.indexOf(this._args.freq.toUpperCase()) === -1) {
-      this.errors.push('Invalid { freq } argument provided.');
-    }
+    Object.keys(recurrence).forEach((key) => {
+      if (key === 'freq') {
+        result.frequency = constants.FREQUENCIES[recurrence.freq.toUpperCase()];
+      } else if (constants.LEGACY[key] && recurrence[key] !== null) {
+        result[constants.LEGACY[key]] = recurrence[key];
+      } else if (recurrence[key] !== null) {
+        result[key] = recurrence[key];
+      }
+    });
+
+    return new Rule(result);
   }
 
-  _getFreq() {
-    this._validateFreq();
-
-    return `FREQ=${this._args.freq.toUpperCase()}`;
-  }
-
-  _parse() {
-    const freq = getFreq();
+  iterator() {
+    return new Iterator(this.rule);
   }
 }
 
-// args:
-// [freq, dtstart, interval, wkst, count, until,
-// bysetpos, bymonth, bymonthday, byyearday, byeaster,
-// byweekno, byweekday, byhour, byminute, bysecond, cache.
-// timezone]
+module.exports = Rule;
