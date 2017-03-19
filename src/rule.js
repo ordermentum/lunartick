@@ -3,8 +3,36 @@ const Iterator = require('./iterator');
 const constants = require('./constants');
 
 class Rule {
-  constructor(rule = {}) {
-    this.rule = rule;
+  constructor({
+    frequency,
+    interval,
+    count,
+    bySetPos,
+    byYearDay,
+    byMonth,
+    byMonthDay,
+    byWeekNo,
+    byEaster,
+    byDay,
+    byHour,
+    byMinute,
+    bySecond,
+    tzId,
+  } = {}) {
+    this.frequency = frequency;
+    this.interval = interval;
+    this.count = count;
+    this.bySetPos = bySetPos;
+    this.byYearDay = byYearDay;
+    this.byMonth = byMonth;
+    this.byMonthDay = byMonthDay;
+    this.byWeekNo = byWeekNo;
+    this.byEaster = byEaster;
+    this.byDay = byDay;
+    this.byHour = byHour;
+    this.byMinute = byMinute;
+    this.bySecond = bySecond;
+    this.tzId = tzId;
   }
 
   static parse(string) {
@@ -27,12 +55,12 @@ class Rule {
     return new Rule(result);
   }
 
-  getRule() {
-    return this.rule;
+  toString() {
+    // TODO: Return the RRuleString
   }
 
   iterator(start = null) {
-    return new Iterator(this.rule, start);
+    return new Iterator(this, start);
   }
 }
 

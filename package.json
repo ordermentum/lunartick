@@ -1,24 +1,20 @@
 {
   "name": "lunartick",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "",
-  "main": "lib/rule.js",
+  "main": "src/rule.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha -R spec",
-    "compile": "babel -d lib/ src/",
-    "build": "babel src -d lib"
+    "test": "./node_modules/.bin/mocha -R spec"
   },
   "author": "engineering@ordermentum.com",
   "license": "ISC",
+  "files": [
+    "src/*"
+  ],
   "dependencies": {
     "moment-timezone": "^0.5.11"
   },
   "devDependencies": {
-    "babel-cli": "^6.23.0",
-    "babel-core": "^6.23.1",
-    "babel-eslint": "^7.1.1",
-    "babel-preset-es2015": "^6.22.0",
-    "babel-preset-stage-1": "^6.22.0",
     "chai": "^3.5.0",
     "eslint": "^2.11.1",
     "eslint-config-airbnb": "^9.0.1",
