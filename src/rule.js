@@ -75,8 +75,8 @@ class Rule {
     }).join(';');
   }
 
-  iterator(start = null) {
-    return new Iterator(this, start);
+  iterator(start = null, count) {
+    return new Iterator(this, start, count);
   }
 
   getNext(start = null) {
