@@ -69,6 +69,9 @@ class Rule {
       } else if (prop === 'dtStart') {
         const javaDate = moment(rule[prop]).format('YYYYMMDDTHHmmss');
         return `${constants.STRINGS[prop]}=${javaDate}`;
+      } else if (prop === 'byDay') {
+        const day = constants.STRING_WEEK_DAYS[rule[prop]];
+        return `${constants.STRINGS[prop]}=${day}`;
       }
       return `${constants.STRINGS[prop]}=${rule[prop]}`;
     }).join(';');

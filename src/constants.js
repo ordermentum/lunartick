@@ -8,6 +8,16 @@ const WEEK_DAYS = {
   SU: 6,
 };
 
+const STRING_WEEK_DAYS = {
+  0: 'MO',
+  1: 'TU',
+  2: 'WE',
+  3: 'TH',
+  4: 'FR',
+  5: 'SA',
+  6: 'SU',
+};
+
 const FREQUENCIES = {
   SECONDLY: 0,
   MINUTELY: 1,
@@ -67,6 +77,7 @@ module.exports = {
   FREQUENCIES,
   STRING_FREQUENCIES,
   WEEK_DAYS,
+  STRING_WEEK_DAYS,
   LEGACY,
   ADD_FREQUENCY,
   STRINGS,
