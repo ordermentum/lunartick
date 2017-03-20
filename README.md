@@ -1,4 +1,5 @@
 # Lunartick
+[![npm version](https://badge.fury.io/js/lunartick.svg)](https://badge.fury.io/js/lunartick)
 
 ### Description
 
