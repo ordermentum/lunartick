@@ -62,21 +62,17 @@ class Rule {
   toString() {
     const rule = JSON.parse(JSON.stringify(this));
 
-    let result = '';
-    for (const prop in rule) { // eslint-disable-line
-      result = `${result}${constants.STRINGS[prop]}=`;
+    return Object.keys(rule).map(prop => {
       if (prop === 'frequency') {
         const freqName = constants.STRING_FREQUENCIES[rule[prop]];
-        result = `${result}${freqName};`;
+        return `${constants.STRINGS[prop]}=${freqName}`;
       } else if (prop === 'dtStart') {
         const javaDate = moment(rule[prop]).format('YYYYMMDDTHHmmsss');
-        result = `${result}${javaDate}`;
+        return `${constants.STRINGS[prop]}=${javaDate}`;
       } else {
-        result = `${result}${rule[prop]};`;
+        return `${constants.STRINGS[prop]}=${rule[prop]}`;
       }
-    }
-
-    return result.slice(0, -1);
+    }).join(';');
   }
 
   iterator(start = null) {
