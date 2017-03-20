@@ -5,11 +5,11 @@
   "main": "src/rule.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha -R spec",
-    "build": "npm run test && npm run coverage:check",
+    "build": "npm run coverage:build && npm run coverage:check",
     "lint": "./node_modules/.bin/eslint --quiet src test",
+    "coverage:build": "nyc npm run test",
     "coverage:check": "nyc check-coverage --statements 70 --branches 70 --functions 60 --lines 70",
-    "coverage:html": "nyc --reporter=html npm run test",
-    "coverage": "nyc npm run test"
+    "coverage:html": "nyc --reporter=html npm run test"
   },
   "author": "engineering@ordermentum.com",
   "license": "Apache-2.0",
