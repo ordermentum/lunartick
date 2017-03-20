@@ -67,7 +67,7 @@ class Rule {
         const freqName = constants.STRING_FREQUENCIES[rule[prop]];
         return `${constants.STRINGS[prop]}=${freqName}`;
       } else if (prop === 'dtStart') {
-        const javaDate = moment(rule[prop]).format('YYYYMMDDTHHmmsss');
+        const javaDate = moment(rule[prop]).format('YYYYMMDDTHHmmss');
         return `${constants.STRINGS[prop]}=${javaDate}`;
       } else {
         return `${constants.STRINGS[prop]}=${rule[prop]}`;
@@ -77,6 +77,10 @@ class Rule {
 
   iterator(start = null) {
     return new Iterator(this, start);
+  }
+
+  getNext(start = null) {
+    return this.iterator().getNext(start);
   }
 }
 
