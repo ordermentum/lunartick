@@ -1,3 +1,5 @@
+const moment = require('moment-timezone');
+
 const Parse = require('./parse');
 const Iterator = require('./iterator');
 const constants = require('./constants');
@@ -18,6 +20,7 @@ class Rule {
     byMinute,
     bySecond,
     tzId,
+    dtStart,
   } = {}) {
     this.frequency = frequency;
     this.interval = interval;
@@ -33,6 +36,7 @@ class Rule {
     this.byMinute = byMinute;
     this.bySecond = bySecond;
     this.tzId = tzId;
+    this.dtStart = dtStart;
   }
 
   static parse(string) {
@@ -56,7 +60,23 @@ class Rule {
   }
 
   toString() {
-    // TODO: Return the RRuleString
+    const rule = JSON.parse(JSON.stringify(this));
+
+    let result = '';
+    for (const prop in rule) { // eslint-disable-line
+      result = `${result}${constants.STRINGS[prop]}=`;
+      if (prop === 'frequency') {
+        const freqName = constants.STRING_FREQUENCIES[rule[prop]];
+        result = `${result}${freqName};`;
+      } else if (prop === 'dtStart') {
+        const javaDate = moment(rule[prop]).format('YYYYMMDDTHHmmsss');
+        result = `${result}${javaDate}`;
+      } else {
+        result = `${result}${rule[prop]};`;
+      }
+    }
+
+    return result.slice(0, -1);
   }
 
   iterator(start = null) {

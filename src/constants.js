@@ -18,6 +18,16 @@ const FREQUENCIES = {
   YEARLY: 6,
 };
 
+const STRING_FREQUENCIES = {
+  0: 'SECONDLY',
+  1: 'MINUTELY',
+  2: 'HOURLY',
+  3: 'DAILY',
+  4: 'WEEKLY',
+  5: 'MONTHLY',
+  6: 'YEARLY',
+};
+
 const ADD_FREQUENCY = {
   0: 'addSecond',
   1: 'addMinute',
@@ -36,9 +46,28 @@ const LEGACY = {
   bysecond: 'bySecond',
 };
 
+const STRINGS = {
+  frequency: 'FREQ',
+  interval: 'INTERVAL',
+  count: 'COUNT',
+  bySetPos: 'BYSETPOS',
+  byYearDay: 'BYYEARDAY',
+  byMonth: 'BYMONTH',
+  byMonthDay: 'BYMONTHDAY',
+  byEaster: 'BYEASTER',
+  byDay: 'BYDAY',
+  byHour: 'BYHOUR',
+  byMinute: 'BYMINUTE',
+  bySecond: 'BYSECOND',
+  tzId: 'TZID',
+  dtStart: 'DTSTART',
+};
+
 module.exports = {
   FREQUENCIES,
+  STRING_FREQUENCIES,
   WEEK_DAYS,
   LEGACY,
   ADD_FREQUENCY,
+  STRINGS,
 };
