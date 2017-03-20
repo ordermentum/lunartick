@@ -98,10 +98,6 @@ class TimezoneDate {
     return this.date.second();
   }
 
-  getTime() {
-    return this.date.valueOf();
-  }
-
   getUTCDate() {
     return this.getUTC().date();
   }
