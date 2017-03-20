@@ -25,7 +25,14 @@ Import the library and pass in an RRULE string to the `.parse()` method. The res
 const Rule = require('lunartick');
 const rruleString = 'FREQ=DAILY;INTERVAL=1;BYHOUR=14;BYMINUTE=3;BYSECOND=0;DTSTART=19701101T020000';
 const rule = Rule.parse(rruleString);
-
+ /*{
+   frequency: 2,
+   interval: 1,
+   byHour: [14],
+   byMinute: [3],
+   bySecond: [0],
+   dtStart: '19701101T020000'
+}*/
 ```
 
 Once a string has been parsed, it can be converted back to an RRULE string using the `.toString()` method. This method does not take any parameters.
