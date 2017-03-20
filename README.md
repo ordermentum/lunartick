@@ -18,6 +18,18 @@ Originally developed by [Michael Cooper](https://www.github.com/scoutski) - Deve
 
 ### Usage
 
+NPM users
+
+```js
+npm i lunartick
+```
+
+Yarn users
+
+```js
+yarn add lunartick
+```
+
 Import the library and pass in an RRULE string to the `.parse()` method. The resulting instance supports the following properties:
 `frequency, interval, count, bySetPos, byYearDay, byMonth, byMonthDay, byWeekNo, byEaster, byDay, byHour,  byMinute, bySecond, tzId and dtStart.`
 
