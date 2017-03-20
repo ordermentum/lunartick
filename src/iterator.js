@@ -17,7 +17,7 @@ class Iterator {
     } else if (this.rule.count) {
       this.count = this.rule.count;
     } else {
-      this.count = 100;
+      this.count = 52;
     }
 
     this.start = new TimezoneDate(start || new Date(), this.rule.tzId);

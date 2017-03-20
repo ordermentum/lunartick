@@ -18,13 +18,34 @@ Originally developed by [Michael Cooper](https://www.github.com/scoutski) - Deve
 
 ### Usage
 
-```js
-const { Rule } = require('lunartick');
+Import the library and pass in an RRULE string to the `.parse()` method. The resulting instance supports the following properties:
+`frequency, interval, count, bySetPos, byYearDay, byMonth, byMonthDay, byWeekNo, byEaster, byDay, byHour,  byMinute, bySecond, tzId and dtStart.`
 
-const rruleString = 'FREQ=DAILY;INTERVAL=1;COUNT=5;BYHOUR=14;BYMINUTE=3;BYSECOND=0;DTSTART=19701101T020000';
+```js
+const Rule = require('lunartick');
+const rruleString = 'FREQ=DAILY;INTERVAL=1;BYHOUR=14;BYMINUTE=3;BYSECOND=0;DTSTART=19701101T020000';
 const rule = Rule.parse(rruleString);
 
-for (const nextDate of rule.iterator(rule.getRule().dtStart)) {
+```
+
+Once a string has been parsed, it can be converted back to an RRULE string using the `.toString()` method. This method does not take any parameters.
+
+```js
+const string = rule.toString();
+// 'FREQ=DAILY;INTERVAL=1;BYHOUR=14;BYMINUTE=3;BYSECOND=0;DTSTART=19701101T020000'
+```
+
+To fetch the next run time for this schedule call the `.getNext()` method with an optional from date, you can pass in the `.dtStart` property if you want to use it. If no from date is passed in, it will fetch the next run time base on the current time.
+
+```js
+const nextRun = rule.getNext(rule.dtStart);
+// Sun Nov 01 1970 14:03:00 GMT+1000
+```
+
+The rule instance will also have an iterator to fetch the next `X` runtimes for the rule. You can use a `for-of` loop on rule.iterator() which takes two optional parameters. The first one is the from date (default is also the current time). The second parameter is how many iterations should be fetched. If a number is passed in, it will take precedence, if a `.count` property exists in the rule, it will be used next and if neither are available it will default to 52 iterations.
+
+```js
+for (const nextDate of rule.iterator(rule.dtStart, 5)) {
   console.log(nextDate.toString());
 }
 /*
@@ -34,16 +55,11 @@ for (const nextDate of rule.iterator(rule.getRule().dtStart)) {
   Wed Nov 04 1970 14:03:00 GMT+1000
   Thu Nov 05 1970 14:03:00 GMT+1000
 */
-
-console.log(rule.getRule());
-/*{
-  frequency: 2,
-  interval: 1,
-  byHour: [14],
-  byMinute: [3],
-  bySecond: [0]
-}*/
 ```
+
+### Limitations
+
+- Currently does not support multiple values for byDay, byHour, byMinute and bySecond.
 
 ### Licensing
 
