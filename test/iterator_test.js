@@ -63,7 +63,7 @@ describe('Iterator', () => {
     let initialDate = 10;
     for (const iteration of iterator) {
       expect(iteration.getDate()).to.equal(initialDate);
-      initialDate = initialDate + interval;
+      initialDate += interval;
     }
 
     expect(initialDate).to.equal(10 + (interval * count));

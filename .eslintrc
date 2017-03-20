@@ -6,7 +6,6 @@
     "no-unused-expressions": "off",
     "no-new": "off"
   },
-  "parser": "babel-eslint",
   "globals": {
     "describe": true,
     "it": false,

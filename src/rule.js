@@ -62,16 +62,15 @@ class Rule {
   toString() {
     const rule = JSON.parse(JSON.stringify(this));
 
-    return Object.keys(rule).map(prop => {
+    return Object.keys(rule).map((prop) => {
       if (prop === 'frequency') {
         const freqName = constants.STRING_FREQUENCIES[rule[prop]];
         return `${constants.STRINGS[prop]}=${freqName}`;
       } else if (prop === 'dtStart') {
         const javaDate = moment(rule[prop]).format('YYYYMMDDTHHmmss');
         return `${constants.STRINGS[prop]}=${javaDate}`;
-      } else {
-        return `${constants.STRINGS[prop]}=${rule[prop]}`;
       }
+      return `${constants.STRINGS[prop]}=${rule[prop]}`;
     }).join(';');
   }
 

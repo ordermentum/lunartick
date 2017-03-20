@@ -33,7 +33,7 @@ describe('Parse', () => {
         err = ex;
       }
 
-      expect(err.message).to.equal('Invalid value "MEOWLY" given for FREQ.')
+      expect(err.message).to.equal('Invalid value "MEOWLY" given for FREQ.');
     });
   });
 
@@ -46,7 +46,7 @@ describe('Parse', () => {
         err = ex;
       }
 
-      expect(err.message).to.equal('Invalid value "CAT" given for INTERVAL.')
+      expect(err.message).to.equal('Invalid value "CAT" given for INTERVAL.');
     });
 
     it('should return an out of range error for a negative INTERVAL', () => {
@@ -57,7 +57,7 @@ describe('Parse', () => {
         err = ex;
       }
 
-      expect(err.message).to.equal('Out of range value "-1" given for INTERVAL.')
+      expect(err.message).to.equal('Out of range value "-1" given for INTERVAL.');
     });
   });
 
@@ -70,7 +70,7 @@ describe('Parse', () => {
         err = ex;
       }
 
-      expect(err.message).to.equal('Invalid value "CAT" given for COUNT.')
+      expect(err.message).to.equal('Invalid value "CAT" given for COUNT.');
     });
 
     it('should return an out of range error for a negative COUNT', () => {
@@ -81,7 +81,7 @@ describe('Parse', () => {
         err = ex;
       }
 
-      expect(err.message).to.equal('Out of range value "-1" given for COUNT.')
+      expect(err.message).to.equal('Out of range value "-1" given for COUNT.');
     });
   });
 
@@ -94,7 +94,7 @@ describe('Parse', () => {
         err = ex;
       }
 
-      expect(err.message).to.equal('Invalid value "LEO" given for BYSETPOS.')
+      expect(err.message).to.equal('Invalid value "LEO" given for BYSETPOS.');
     });
   });
 
@@ -107,7 +107,7 @@ describe('Parse', () => {
         err = ex;
       }
 
-      expect(err.message).to.equal('Invalid value "CAT" given for BYMONTH.')
+      expect(err.message).to.equal('Invalid value "CAT" given for BYMONTH.');
     });
 
     it('should return a out of range error for a BYMONTH value less than 0', () => {
@@ -118,7 +118,7 @@ describe('Parse', () => {
         err = ex;
       }
 
-      expect(err.message).to.equal('Out of range value "-1" given for BYMONTH.')
+      expect(err.message).to.equal('Out of range value "-1" given for BYMONTH.');
     });
 
     it('should return a out of range error for a BYMONTH value more than 11', () => {
@@ -129,7 +129,7 @@ describe('Parse', () => {
         err = ex;
       }
 
-      expect(err.message).to.equal('Out of range value "12" given for BYMONTH.')
+      expect(err.message).to.equal('Out of range value "12" given for BYMONTH.');
     });
   });
 
@@ -142,7 +142,7 @@ describe('Parse', () => {
         err = ex;
       }
 
-      expect(err.message).to.equal('Invalid value "CAT" given for BYMONTHDAY.')
+      expect(err.message).to.equal('Invalid value "CAT" given for BYMONTHDAY.');
     });
 
     it('should return a out of range error for a BYMONTHDAY value less than -1', () => {
@@ -153,7 +153,7 @@ describe('Parse', () => {
         err = ex;
       }
 
-      expect(err.message).to.equal('Out of range value "-2" given for BYMONTHDAY.')
+      expect(err.message).to.equal('Out of range value "-2" given for BYMONTHDAY.');
     });
 
     it('should return a out of range error for a BYMONTHDAY equal to 0', () => {
@@ -164,7 +164,7 @@ describe('Parse', () => {
         err = ex;
       }
 
-      expect(err.message).to.equal('Out of range value "0" given for BYMONTHDAY.')
+      expect(err.message).to.equal('Out of range value "0" given for BYMONTHDAY.');
     });
 
     it('should return a out of range error for a BYMONTHDAY value more than 28', () => {
@@ -175,7 +175,7 @@ describe('Parse', () => {
         err = ex;
       }
 
-      expect(err.message).to.equal('Out of range value "29" given for BYMONTHDAY.')
+      expect(err.message).to.equal('Out of range value "29" given for BYMONTHDAY.');
     });
   });
 
@@ -188,7 +188,7 @@ describe('Parse', () => {
         err = ex;
       }
 
-      expect(err.message).to.equal('Invalid value "CAT" given for BYYEARDAY.')
+      expect(err.message).to.equal('Invalid value "CAT" given for BYYEARDAY.');
     });
 
     it('should return a out of range error for a BYYEARDAY value less than 0', () => {
@@ -199,7 +199,7 @@ describe('Parse', () => {
         err = ex;
       }
 
-      expect(err.message).to.equal('Out of range value "-1" given for BYYEARDAY.')
+      expect(err.message).to.equal('Out of range value "-1" given for BYYEARDAY.');
     });
 
     it('should return a out of range error for a BYYEARDAY value more than 364', () => {
@@ -210,7 +210,7 @@ describe('Parse', () => {
         err = ex;
       }
 
-      expect(err.message).to.equal('Out of range value "365" given for BYYEARDAY.')
+      expect(err.message).to.equal('Out of range value "365" given for BYYEARDAY.');
     });
   });
 
@@ -223,7 +223,7 @@ describe('Parse', () => {
         err = ex;
       }
 
-      expect(err.message).to.equal('Invalid value "CAT" given for BYEASTER.')
+      expect(err.message).to.equal('Invalid value "CAT" given for BYEASTER.');
     });
   });
 
@@ -236,7 +236,7 @@ describe('Parse', () => {
         err = ex;
       }
 
-      expect(err.message).to.equal('Invalid value "CAT" given for BYWEEKNO.')
+      expect(err.message).to.equal('Invalid value "CAT" given for BYWEEKNO.');
     });
 
     it('should return a out of range error for a BYWEEKNO value less than 0', () => {
@@ -247,7 +247,7 @@ describe('Parse', () => {
         err = ex;
       }
 
-      expect(err.message).to.equal('Out of range value "-1" given for BYWEEKNO.')
+      expect(err.message).to.equal('Out of range value "-1" given for BYWEEKNO.');
     });
 
     it('should return a out of range error for a BYWEEKNO value more than 51', () => {
@@ -258,7 +258,7 @@ describe('Parse', () => {
         err = ex;
       }
 
-      expect(err.message).to.equal('Out of range value "52" given for BYWEEKNO.')
+      expect(err.message).to.equal('Out of range value "52" given for BYWEEKNO.');
     });
   });
 
@@ -271,7 +271,7 @@ describe('Parse', () => {
         err = ex;
       }
 
-      expect(err.message).to.equal('Invalid value "CA" given for BYDAY.')
+      expect(err.message).to.equal('Invalid value "CA" given for BYDAY.');
     });
   });
 
@@ -284,7 +284,7 @@ describe('Parse', () => {
         err = ex;
       }
 
-      expect(err.message).to.equal('Invalid value "CAT" given for BYHOUR.')
+      expect(err.message).to.equal('Invalid value "CAT" given for BYHOUR.');
     });
 
     it('should return a out of range error for a BYHOUR value less than 0', () => {
@@ -295,7 +295,7 @@ describe('Parse', () => {
         err = ex;
       }
 
-      expect(err.message).to.equal('Out of range value "-1" given for BYHOUR.')
+      expect(err.message).to.equal('Out of range value "-1" given for BYHOUR.');
     });
 
     it('should return a out of range error for a BYHOUR value more than 23', () => {
@@ -306,7 +306,7 @@ describe('Parse', () => {
         err = ex;
       }
 
-      expect(err.message).to.equal('Out of range value "24" given for BYHOUR.')
+      expect(err.message).to.equal('Out of range value "24" given for BYHOUR.');
     });
   });
 
@@ -319,7 +319,7 @@ describe('Parse', () => {
         err = ex;
       }
 
-      expect(err.message).to.equal('Invalid value "CAT" given for BYMINUTE.')
+      expect(err.message).to.equal('Invalid value "CAT" given for BYMINUTE.');
     });
 
     it('should return a out of range error for a BYMINUTE value less than 0', () => {
@@ -330,7 +330,7 @@ describe('Parse', () => {
         err = ex;
       }
 
-      expect(err.message).to.equal('Out of range value "-1" given for BYMINUTE.')
+      expect(err.message).to.equal('Out of range value "-1" given for BYMINUTE.');
     });
 
     it('should return a out of range error for a BYMINUTE value more than 59', () => {
@@ -341,7 +341,7 @@ describe('Parse', () => {
         err = ex;
       }
 
-      expect(err.message).to.equal('Out of range value "60" given for BYMINUTE.')
+      expect(err.message).to.equal('Out of range value "60" given for BYMINUTE.');
     });
   });
 
@@ -354,7 +354,7 @@ describe('Parse', () => {
         err = ex;
       }
 
-      expect(err.message).to.equal('Invalid value "CAT" given for BYSECOND.')
+      expect(err.message).to.equal('Invalid value "CAT" given for BYSECOND.');
     });
 
     it('should return a out of range error for a BYSECOND value less than 0', () => {
@@ -365,7 +365,7 @@ describe('Parse', () => {
         err = ex;
       }
 
-      expect(err.message).to.equal('Out of range value "-1" given for BYSECOND.')
+      expect(err.message).to.equal('Out of range value "-1" given for BYSECOND.');
     });
 
     it('should return a out of range error for a BYSECOND value more than 59', () => {
@@ -376,7 +376,7 @@ describe('Parse', () => {
         err = ex;
       }
 
-      expect(err.message).to.equal('Out of range value "60" given for BYSECOND.')
+      expect(err.message).to.equal('Out of range value "60" given for BYSECOND.');
     });
   });
 });

@@ -23,13 +23,13 @@ class Iterator {
     this.start = new TimezoneDate(start || new Date(), this.rule.tzId);
   }
 
-  *[Symbol.iterator]() {
+  * [Symbol.iterator]() {
     let limit = this.count;
     while (limit > 0) {
       const value = this.getNext(this.start);
       yield value;
       this.start = value;
-      limit = limit - 1;
+      limit -= 1;
     }
   }
 
