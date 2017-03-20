@@ -27,6 +27,7 @@
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.10.2",
     "mocha": "^3.2.0",
-    "nyc": "^10.1.2"
+    "nyc": "^10.1.2",
+    "sinon": "^2.0.0"
   }
 }

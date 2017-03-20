@@ -1,9 +1,32 @@
 const moment = require('moment-timezone');
 const { expect } = require('chai');
+const sinon = require('sinon');
 
 const Iterator = require('../src/iterator');
 
 describe('Iterator', () => {
+  it.skip('freezes time', () => {
+    // TZ=America/Chicago yarn test
+    // TZ=Australia/Sydney yarn test
+    const timer = sinon.useFakeTimers(new Date(2016, 3, 12, 11).getTime());
+    const iterator = new Iterator({
+      frequency: 3,
+      byHour: [10],
+      byDay: [12],
+      byMinute: [30],
+      tzId: 'America/Chicago',
+    });
+
+    const next = iterator.getNext(new Date());
+
+    expect(next.toISOString()).to.equal('2016-04-13T00:30:00.000Z');
+    expect(next.getDate()).to.equal(13);
+    expect(next.getHours()).to.equal(10);
+    expect(next.getMinutes()).to.equal(30);
+
+    timer.restore();
+  });
+
   it('must throw an error for an invalid rule passed in', () => {
     let err;
     try {
