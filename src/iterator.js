@@ -20,13 +20,14 @@ class Iterator {
       this.count = 52;
     }
 
-    this.start = new TimezoneDate(start || new Date(), this.rule.tzId);
+    const timezone = this.rule.tzId || 'UTC';
+    this.start = new TimezoneDate(start || new Date(), timezone);
   }
 
   * [Symbol.iterator]() {
     let limit = this.count;
     while (limit > 0) {
-      const value = this.getNext(this.start);
+      const value = this.getNext(this.start || new Date());
       yield value;
       this.start = value;
       limit -= 1;
@@ -55,7 +56,8 @@ class Iterator {
   }
 
   getLowerIntervals(fromDate) {
-    const intervalTime = new TimezoneDate(fromDate || new Date(), this.rule.tzId);
+    const timezone = this.rule.tzId || 'UTC';
+    const intervalTime = new TimezoneDate(fromDate || new Date(), timezone);
     return this.setLowerIntervals(intervalTime, intervalTime);
   }
 
