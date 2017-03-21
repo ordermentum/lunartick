@@ -40,7 +40,7 @@ describe('Iterator', () => {
       count: 2,
     });
 
-    const nextEvents = []
+    const nextEvents = [];
     for (const iteration of iterator) {
       nextEvents.push(iteration);
     }
