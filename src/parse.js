@@ -225,8 +225,10 @@ class Parse {
 
   handleDtStart(arg) {
     let dtStart;
+    const tzMatch = this.string.match(/TZID=(.*?);/);
     try {
-      dtStart = new TimezoneDate(arg);
+      const timezone = tzMatch && tzMatch[1] ? tzMatch[1] : 'UTC';
+      dtStart = new TimezoneDate(arg, timezone);
     } catch (ex) {
       throw new Error('Invalid DTSTART provided.');
     }

@@ -63,22 +63,26 @@ class Iterator {
 
   getNext(fromDate) {
     const intervalTime = this.getLowerIntervals(fromDate);
-    let result;
 
     if (fromDate.toISOString) fromDate = fromDate.toISOString(); // eslint-disable-line
 
-    if (moment(fromDate).isBefore(intervalTime.date.toISOString())) {
-      result = intervalTime;
-    } else {
-      const intervals = this.getLowerIntervals(intervalTime);
-      for (let i = 0; i < this.rule.interval; i++) {
-        intervalTime[constants.ADD_FREQUENCY[this.rule.frequency]]();
-      }
+    if (this.rule.dtStart && moment(fromDate).isBefore(this.rule.dtStart.date)) {
+      intervalTime.setMonth(this.rule.dtStart.getMonth());
+      intervalTime.setDate(this.rule.dtStart.getDate());
 
-      result = this.setLowerIntervals(intervalTime, intervals);
+      return intervalTime;
     }
 
-    return result;
+    if (moment(fromDate).isBefore(intervalTime.date.toISOString())) {
+      return intervalTime;
+    }
+
+    const intervals = this.getLowerIntervals(intervalTime);
+    for (let i = 0; i < this.rule.interval; i++) {
+      intervalTime[constants.ADD_FREQUENCY[this.rule.frequency]]();
+    }
+
+    return this.setLowerIntervals(intervalTime, intervals);
   }
 }
 
