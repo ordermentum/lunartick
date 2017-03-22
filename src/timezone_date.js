@@ -33,6 +33,10 @@ class TimezoneDate {
     this.date.add(7, 'day').startOf('day');
   }
 
+  addFortnight() {
+    this.date.add(14, 'day').startOf('day');
+  }
+
   addDay() {
     this.date.add(1, 'day').startOf('day');
   }
