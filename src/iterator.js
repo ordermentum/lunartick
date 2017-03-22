@@ -60,21 +60,22 @@ class Iterator {
   calculateFortnight(intervalTime) {
     // calculate the difference in weeks between the dtStart
     // and the current date.
-    const weekDiff = moment(this.rule.dtStart.date).diff(intervalTime.date.toISOString(), 'week');
+    const result = this.rule.dtStart;
+    const weekDiff = result.getWeekDiff(intervalTime);
     // ensures that it only gets the even week amount to advance the time.
     const evenWeeks = weekDiff - (weekDiff % 2);
     // Adds the even weeks to the dtStart which gives the last run time before
     // the current date.
-    const startingPoint = moment(this.rule.dtStart.date).add(Math.abs(evenWeeks), 'weeks');
+    result.addWeeks(Math.abs(evenWeeks));
     const timezone = this.rule.tzId || 'UTC';
-    return new TimezoneDate(startingPoint, timezone);
+    return new TimezoneDate(result, timezone);
   }
 
   handleFortnight(intervalTime, fromDate) {
     let lastRun = fromDate;
     // if the start date is before the from Date advance the fromDate
     // until it's within 2 weeks of the current date.
-    const pastDtStart = moment(this.rule.dtStart.date).isBefore(fromDate);
+    const pastDtStart = this.rule.dtStart.isBefore(fromDate);
     if (pastDtStart) {
       lastRun = this.calculateFortnight(intervalTime);
     }
@@ -86,22 +87,20 @@ class Iterator {
   handleLastMonthDay(tzFromDate, intervalTime) {
     const timezone = this.rule.tzId || 'UTC';
     // Gets the last day of the current month
-    if (tzFromDate.getDate() === tzFromDate.date.daysInMonth() &&
-      tzFromDate.date.isBefore(intervalTime)) {
+    if (tzFromDate.getDate() === tzFromDate.getDaysInMonth() &&
+      tzFromDate.isBefore(intervalTime)) {
         // It's the last day of the month and just need to
         // advance the times to the rules or last run intervals.
       return intervalTime;
     }
 
     // Advance the fromDate to the last day of the month.
-    let lastMonthDay = new TimezoneDate(
-      tzFromDate.date.add(1, 'months').date(0), timezone);
+    let lastMonthDay = new TimezoneDate(tzFromDate.addRemainingMonth(1), timezone);
 
     // If it's equal to or after the run time and we are
     // on the actual day, add a month.
-    if (tzFromDate.date.isSameOrAfter(intervalTime.date.add(1, 'months').date(0))) {
-      lastMonthDay = new TimezoneDate(
-        tzFromDate.date.add(2, 'months').date(0), timezone);
+    if (tzFromDate.isSameOrAfter(intervalTime.addRemainingMonth(1))) {
+      lastMonthDay = new TimezoneDate(tzFromDate.addRemainingMonth(2), timezone);
     }
 
     // Set the HH/MM/SS intervals on the correct day.
@@ -122,14 +121,14 @@ class Iterator {
 
     if (tzFromDate.getDate() < this.rule.byMonthDay[0]) {
       // If the from day of the month is before the specified date.
-      return intervalTime.setDate(this.rule.byMonthDay[0]);
+      intervalTime.setDate(this.rule.byMonthDay[0]);
     } else if (tzFromDate.getDate() > this.rule.byMonthDay[0]) {
       // If the from date is after the specified date.
       intervalTime.addMonth();
       intervalTime.setDate(this.rule.byMonthDay[0]);
     } else if (tzFromDate.getDate() === this.rule.byMonthDay[0]) {
       // If the from date is the same day as the byMonthDay.
-      if (tzFromDate.date.isSameOrAfter(intervalTime.date)) {
+      if (tzFromDate.isSameOrAfter(intervalTime)) {
         // And the time is after the intervals run time
         // then we need to skip ahead to the day next month.
         intervalTime.addMonth();

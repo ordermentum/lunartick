@@ -29,8 +29,16 @@ class TimezoneDate {
     this.date.add(1, 'month').startOf('month');
   }
 
+  addRemainingMonth(m) {
+    return this.date.add(m, 'months').date(0);
+  }
+
   addWeek() {
     this.date.add(7, 'day').startOf('day');
+  }
+
+  addWeeks(w) {
+    this.date.add(w, 'weeks');
   }
 
   addFortnight() {
@@ -90,6 +98,10 @@ class TimezoneDate {
     return this.date.month();
   }
 
+  getDaysInMonth() {
+    return this.date.daysInMonth();
+  }
+
   getHours() {
     return this.date.hours();
   }
@@ -100,6 +112,14 @@ class TimezoneDate {
 
   getSeconds() {
     return this.date.second();
+  }
+
+  getWeekDiff(d) {
+    if (!(d instanceof TimezoneDate)) {
+      throw new Error('Invalid comparison date given');
+    }
+
+    return this.date.diff(d.date, 'week');
   }
 
   getUTCDate() {
@@ -189,6 +209,22 @@ class TimezoneDate {
 
   toDate() {
     return this.date.toDate();
+  }
+
+  isBefore(d) {
+    if (d instanceof TimezoneDate) {
+      return this.date.isBefore(d.date);
+    }
+
+    return this.date.isBefore(d);
+  }
+
+  isSameOrAfter(d) {
+    if (d instanceof TimezoneDate) {
+      return this.date.isSameOrAfter(d.date);
+    }
+
+    return this.date.isSameOrAfter(d);
   }
 }
 
