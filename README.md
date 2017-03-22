@@ -8,15 +8,11 @@
 
 Based on the [RFC5545](https://tools.ietf.org/html/rfc5545) spec for Internet Calendaring and Scheduling Core Object Specification.
 
-Lunartick!! ... get it!?
+Lunartick!! ... get it!? It's a pun on lunar and a crazy person, because that's what I feel like after working on this!!
 
-It's a pun on lunar and a crazy person, because that's what I feel like after working on this. It's a joke.
-
-Anyway...
+Sorry... Anyway,
 
 Lunartick allows you to parse an RRULE string to return an object of the properties in JS format. The returned object has an iterator() to either get the next run time based on a start time passed in (.getNext())or over the next `X` instances based on the RRULE COUNT or defaults to 1000 if no COUNT is present. If no start date is given, it will fetch the next run time based on the current time.
-
-Originally developed by [Michael Cooper](https://www.github.com/scoutski) - Development sponsored by [Ordermentum](https://www.github.com/ordermentum).
 
 ### Usage
 
@@ -85,3 +81,5 @@ for (const nextDate of rule.iterator(rule.dtStart, 5)) {
 ### Licensing
 
 Lunartick is licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE) for the full license text.
+
+Developed by [Michael Cooper](https://www.github.com/scoutski), sponsored by [Ordermentum](https://www.github.com/ordermentum).

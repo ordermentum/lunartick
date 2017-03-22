@@ -4,6 +4,7 @@ const Parse = require('./parse');
 const Iterator = require('./iterator');
 const constants = require('./constants');
 
+
 class Rule {
   constructor({
     frequency,
