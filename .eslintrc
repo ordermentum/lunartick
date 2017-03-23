@@ -4,7 +4,8 @@
     "indent": 2,
     "func-names": "off",
     "no-unused-expressions": "off",
-    "no-new": "off"
+    "no-new": "off",
+    "class-methods-use-this": "off"
   },
   "globals": {
     "describe": true,

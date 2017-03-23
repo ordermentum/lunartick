@@ -16,7 +16,7 @@ Anyway...
 
 Lunartick allows you to parse an RRULE string to return an object of the properties in JS format. The returned object has an iterator() to either get the next run time based on a start time passed in (.getNext())or over the next `X` instances based on the RRULE COUNT or defaults to 1000 if no COUNT is present. If no start date is given, it will fetch the next run time based on the current time.
 
-Originally developed by [Michael Cooper](https://www.github.com/scoutski) - Development sponsored by [Ordermentum](https://www.github.com/ordermentum).
+Please note that this package only supports ES6 friendly codebases.
 
 ### Usage
 
@@ -66,9 +66,13 @@ const nextRun = rule.getNext(rule.dtStart);
 The rule instance will also have an iterator to fetch the next `X` runtimes for the rule. You can use a `for-of` loop on rule.iterator() which takes two optional parameters. The first one is the from date (default is also the current time). The second parameter is how many iterations should be fetched. If a number is passed in, it will take precedence, if a `.count` property exists in the rule, it will be used next and if neither are available it will default to 52 iterations.
 
 ```js
-for (const nextDate of rule.iterator(rule.dtStart, 5)) {
-  console.log(nextDate.toString());
+const iterator = rule.iterator(rule.dtStart, 5);
+
+for (const nextDate of iterator) {
+  nextDate.toString();
 }
+// OR
+Array.from(iterator);
 /*
   Sun Nov 01 1970 14:03:00 GMT+1000
   Mon Nov 02 1970 14:03:00 GMT+1000
@@ -85,3 +89,5 @@ for (const nextDate of rule.iterator(rule.dtStart, 5)) {
 ### Licensing
 
 Lunartick is licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE) for the full license text.
+
+Originally developed by [Michael Cooper](https://www.github.com/scoutski) - Development sponsored by [Ordermentum](https://www.github.com/ordermentum).
