@@ -1,6 +1,8 @@
 # Lunartick
 [![npm version](https://badge.fury.io/js/lunartick.svg)](https://badge.fury.io/js/lunartick)
 [![Build Status](https://travis-ci.org/ordermentum/lunartick.svg?branch=master)](https://travis-ci.org/ordermentum/lunartick)
+[![dependencies Status](https://david-dm.org/ordermentum/lunartick/status.svg)](https://david-dm.org/ordermentum/lunartick)
+[![devDependencies Status](https://david-dm.org/ordermentum/lunartick/dev-status.svg)](https://david-dm.org/ordermentum/lunartick?type=dev)
 [![npm](https://img.shields.io/npm/l/lunartick.svg)](https://www.npmjs.com/package/lunartick)
 [![npm](https://img.shields.io/npm/dt/lunartick.svg)](https://www.npmjs.com/package/lunartick)
 
