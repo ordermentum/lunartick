@@ -9,16 +9,16 @@ const moment = require('moment-timezone');
 */
 
 class TimezoneDate {
-  constructor(timestamp = new Date(), timezone = 'Australia/Sydney') {
+  constructor(timestamp = new Date(), timezone = 'UTC') {
     if (timestamp instanceof TimezoneDate) {
       timestamp = timestamp.date; // eslint-disable-line
     }
 
-    if (!timezone) {
-      this.date = moment(timestamp);
-    } else {
-      this.date = moment.tz(timestamp, timezone);
+    if (!timezone || typeof timezone !== 'string') {
+      throw new Error('Invalid timezone provided');
     }
+
+    this.date = moment.tz(timestamp, timezone);
   }
 
   addYear() {
@@ -29,8 +29,20 @@ class TimezoneDate {
     this.date.add(1, 'month').startOf('month');
   }
 
+  addRemainingMonth(m) {
+    return this.date.add(m, 'month').date(0);
+  }
+
   addWeek() {
     this.date.add(7, 'day').startOf('day');
+  }
+
+  addWeeks(w) {
+    this.date.add(w, 'weeks');
+  }
+
+  addFortnight() {
+    this.date.add(14, 'days').startOf('day');
   }
 
   addDay() {
@@ -86,6 +98,18 @@ class TimezoneDate {
     return this.date.month();
   }
 
+  getDaysInMonth() {
+    return this.date.daysInMonth();
+  }
+
+  getWeekDiff(d) {
+    if (d instanceof TimezoneDate) {
+      return this.date.diff(d.date, 'weeks');
+    }
+
+    return this.date.diff(d, 'weeks');
+  }
+
   getHours() {
     return this.date.hours();
   }
@@ -124,6 +148,10 @@ class TimezoneDate {
 
   getUTCSeconds() {
     return this.getUTC().second();
+  }
+
+  toUTCString() {
+    return this.date.utc().toString();
   }
 
   toISOString() {
@@ -181,6 +209,30 @@ class TimezoneDate {
 
   toDate() {
     return this.date.toDate();
+  }
+
+  isBefore(d) {
+    if (d instanceof TimezoneDate) {
+      return this.date.isBefore(d.date);
+    }
+
+    return this.date.isBefore(d);
+  }
+
+  isSameOrBefore(d) {
+    if (d instanceof TimezoneDate) {
+      return this.date.isSameOrBefore(d.date);
+    }
+
+    return this.date.isSameOrBefore(d);
+  }
+
+  isSameOrAfter(d) {
+    if (d instanceof TimezoneDate) {
+      return this.date.isSameOrAfter(d.date);
+    }
+
+    return this.date.isSameOrAfter(d);
   }
 }
 

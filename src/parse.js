@@ -81,7 +81,7 @@ class Parse {
 
   handleByEaster(arg) {
     const split = arg.split(',');
-    return { byEaster: split.map(s => {
+    return { byEaster: split.map((s) => {
       this.validateEaster(s);
       return +s;
     }) };
@@ -97,7 +97,7 @@ class Parse {
 
   handleByYearDay(arg) {
     const split = arg.split(',');
-    return { byYearDay: split.map(s => {
+    return { byYearDay: split.map((s) => {
       this.validateYearDay(s);
       return +s;
     }) };
@@ -112,7 +112,7 @@ class Parse {
 
   handleByMonthDay(arg) {
     const split = arg.split(',');
-    return { byMonthDay: split.map(s => {
+    return { byMonthDay: split.map((s) => {
       this.validateMonthDay(s);
       return +s;
     }) };
@@ -127,7 +127,7 @@ class Parse {
 
   handleByWeekNo(arg) {
     const split = arg.split(',');
-    return { byWeekNo: split.map(s => {
+    return { byWeekNo: split.map((s) => {
       this.validateWeekNo(s);
       return +s;
     }) };
@@ -142,7 +142,7 @@ class Parse {
 
   handleByMonth(arg) {
     const split = arg.split(',');
-    return { byMonth: split.map(s => {
+    return { byMonth: split.map((s) => {
       this.validateMonth(s);
       return +s;
     }) };
@@ -156,14 +156,14 @@ class Parse {
 
   handleByDay(arg) {
     const split = arg.split(',');
-    return { byDay: split.map(s => {
+    return { byDay: split.map((s) => {
       this.validateDay(s);
       return constants.WEEK_DAYS[s];
     }) };
   }
 
   validateHour(arg) {
-    this.checkNaN(arg, 'BYHOUR')
+    this.checkNaN(arg, 'BYHOUR');
     if (+arg < 0 || +arg > 23) {
       throw new Error(`Out of range value "${arg}" given for BYHOUR.`);
     }
@@ -171,7 +171,7 @@ class Parse {
 
   handleByHour(arg) {
     const split = arg.split(',');
-    return { byHour: split.map(s => {
+    return { byHour: split.map((s) => {
       this.validateHour(s);
       return +s;
     }) };
@@ -186,7 +186,7 @@ class Parse {
 
   handleByMinute(arg) {
     const split = arg.split(',');
-    return { byMinute: split.map(s => {
+    return { byMinute: split.map((s) => {
       this.validateMinute(s);
       return +s;
     }) };
@@ -201,7 +201,7 @@ class Parse {
 
   handleBySecond(arg) {
     const split = arg.split(',');
-    return { bySecond: split.map(s => {
+    return { bySecond: split.map((s) => {
       this.validateSecond(s);
       return +s;
     }) };
@@ -217,7 +217,7 @@ class Parse {
 
   handleBySetPos(arg) {
     const split = arg.split(',');
-    return { bySetPos: split.map(s => {
+    return { bySetPos: split.map((s) => {
       this.validateSetPos(s);
       return +s;
     }) };
@@ -225,8 +225,10 @@ class Parse {
 
   handleDtStart(arg) {
     let dtStart;
+    const tzMatch = this.string.match(/TZID=(.*?);/);
     try {
-      dtStart = new TimezoneDate(arg);
+      const timezone = tzMatch && tzMatch[1] ? tzMatch[1] : 'UTC';
+      dtStart = new TimezoneDate(arg, timezone);
     } catch (ex) {
       throw new Error('Invalid DTSTART provided.');
     }
@@ -264,7 +266,7 @@ class Parse {
   }
 
   handleSplit() {
-    const pairs = this.split.map(s => {
+    const pairs = this.split.map((s) => {
       const pair = s.split('=');
 
       if (!pair[1]) {

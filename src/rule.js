@@ -81,7 +81,7 @@ class Rule {
     return new Iterator(this, start, count);
   }
 
-  getNext(start = null) {
+  getNext(start = new Date()) {
     return this.iterator().getNext(start);
   }
 }

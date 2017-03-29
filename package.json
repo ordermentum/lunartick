@@ -1,6 +1,6 @@
 {
   "name": "lunartick",
-  "version": "0.0.10",
+  "version": "0.0.15",
   "description": "",
   "main": "src/rule.js",
   "scripts": {
@@ -12,6 +12,7 @@
     "coverage:html": "nyc --reporter=html npm run test"
   },
   "author": "engineering@ordermentum.com",
+  "repository": "https://github.com/ordermentum/lunartick",
   "license": "Apache-2.0",
   "files": [
     "src/*"
