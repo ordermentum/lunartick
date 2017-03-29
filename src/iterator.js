@@ -83,7 +83,8 @@ class Iterator {
       lastRun.addFortnight();
     } else {
       const timezone = this.rule.tzId || 'UTC';
-      return new TimezoneDate(this.rule.dtStart, timezone);
+      const startTime = new TimezoneDate(this.rule.dtStart, timezone);
+      return this.setLowerIntervals(startTime, intervalTime);
     }
 
     return this.setLowerIntervals(lastRun, intervalTime);
