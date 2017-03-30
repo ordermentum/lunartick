@@ -76,15 +76,16 @@ class Iterator {
     let lastRun = fromDate;
     // if the start date is before the from Date advance the fromDate
     // until it's within 2 weeks of the current date.
-    const pastDtStart = this.rule.dtStart.isSameOrBefore(fromDate);
+    const timezone = this.rule.tzId || 'UTC';
+    const startDate = new TimezoneDate(this.rule.dtStart, timezone);
+    const startTime = this.setLowerIntervals(startDate, intervalTime);
+    const pastDtStart = startTime.isSameOrBefore(fromDate);
 
     if (pastDtStart) {
       lastRun = this.calculateFortnight(intervalTime);
       lastRun.addFortnight();
     } else {
-      const timezone = this.rule.tzId || 'UTC';
-      const startTime = new TimezoneDate(this.rule.dtStart, timezone);
-      return this.setLowerIntervals(startTime, intervalTime);
+      return startTime;
     }
 
     return this.setLowerIntervals(lastRun, intervalTime);
