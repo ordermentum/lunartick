@@ -78,7 +78,7 @@ describe('Weekly RRule iterations', () => {
     const iterator = new Iterator({
       frequency: 4,
       interval: 1,
-      byDay: [2],
+      byDay: [3],
       byHour: [12],
       byMinute: [0],
       timezone: 'UTC',
@@ -87,21 +87,21 @@ describe('Weekly RRule iterations', () => {
     const next = Array.from(iterator);
 
     expect(next[0].getMonth()).to.equal(1);
-    expect(next[0].getDate()).to.equal(8);
+    expect(next[0].getDate()).to.equal(9);
     expect(next[0].getHours()).to.equal(12);
     expect(next[0].getMinutes()).to.equal(0);
 
     expect(next[1].getMonth()).to.equal(1);
-    expect(next[1].getDate()).to.equal(15);
+    expect(next[1].getDate()).to.equal(16);
 
     expect(next[2].getMonth()).to.equal(1);
-    expect(next[2].getDate()).to.equal(22);
+    expect(next[2].getDate()).to.equal(23);
 
     expect(next[3].getMonth()).to.equal(2);
-    expect(next[3].getDate()).to.equal(1);
+    expect(next[3].getDate()).to.equal(2);
 
     expect(next[4].getMonth()).to.equal(2);
-    expect(next[4].getDate()).to.equal(8);
+    expect(next[4].getDate()).to.equal(9);
 
     timer.restore();
   });
