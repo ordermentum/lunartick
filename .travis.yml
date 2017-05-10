@@ -8,6 +8,7 @@ branches:
   only:
     - master
     - develop
+    - /^greenkeeper/.*$/
 cache:
   directories:
   - $HOME/.npm
