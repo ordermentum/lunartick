@@ -1,6 +1,6 @@
 {
-  "name": "lunartick",
-  "version": "0.0.17",
+  "name": "@ordermentum/lunartick",
+  "version": "0.0.18",
   "description": "",
   "main": "src/rule.js",
   "scripts": {

@@ -40,7 +40,7 @@ class Parse {
 
   handleFreq(arg) {
     const value = constants.FREQUENCIES[arg];
-    if (!value) {
+    if (value === undefined) {
       throw new Error(`Invalid value "${arg}" given for FREQ.`);
     }
 
